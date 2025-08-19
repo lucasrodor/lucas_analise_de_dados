@@ -1,0 +1,101 @@
+ID_Imovel,Tipo_Imovel,Cidade,Bairro,Area_m2,Numero_Quartos,Numero_Banheiros,Numero_Vagas,Valor_Imovel,Ano_Construcao
+1,Casa,Curitiba,Zona Norte,258,1,3,0,3466213,2007
+2,Comercial,São Paulo,Zona Norte,277,2,2,2,3913339,1997
+3,Comercial,Rio de Janeiro,Zona Norte,200,3,2,0,298881,2013
+4,Comercial,Belo Horizonte,Zona Oeste,464,4,1,3,1906360,2017
+5,Comercial,São Paulo,Centro,188,2,1,3,1273034,2012
+6,Comercial,São Paulo,Zona Norte,58,4,3,0,999452,1985
+7,Comercial,Rio de Janeiro,Zona Sul,453,4,2,2,1379460,2003
+8,Comercial,Porto Alegre,Zona Oeste,312,4,3,0,3882072,1996
+9,Comercial,Curitiba,Centro,137,3,3,2,2502801,1985
+10,Comercial,Porto Alegre,Zona Leste,201,5,2,1,2927693,2007
+11,Apartamento,São Paulo,Zona Leste,76,4,2,3,4419771,1989
+12,Apartamento,Curitiba,Zona Leste,51,5,1,1,1083663,2022
+13,Comercial,Belo Horizonte,Centro,387,4,3,0,2277482,1984
+14,Casa,São Paulo,Zona Leste,69,5,2,0,2515276,1991
+15,Apartamento,Rio de Janeiro,Zona Norte,228,3,3,2,4752560,2016
+16,Casa,Porto Alegre,Centro,212,3,1,0,1126941,2006
+17,Casa,Porto Alegre,Centro,314,3,1,2,2722430,1986
+18,Comercial,Rio de Janeiro,Zona Sul,457,1,2,3,1528518,1991
+19,Comercial,Curitiba,Zona Leste,122,1,3,0,597982,2014
+20,Comercial,Belo Horizonte,Zona Leste,229,4,2,2,3381464,1987
+21,Comercial,Rio de Janeiro,Centro,107,4,1,2,1680224,2008
+22,Casa,Rio de Janeiro,Zona Oeste,437,5,1,1,4618346,2008
+23,Comercial,Porto Alegre,Zona Norte,332,2,3,0,455209,2004
+24,Comercial,São Paulo,Zona Norte,223,3,1,1,265325,1990
+25,Casa,Curitiba,Centro,337,4,3,1,2736554,1989
+26,Apartamento,Curitiba,Zona Oeste,266,4,3,3,1609256,2016
+27,Comercial,Rio de Janeiro,Zona Sul,495,5,2,2,4419258,1980
+28,Apartamento,Rio de Janeiro,Zona Norte,357,4,3,1,1401931,2008
+29,Casa,Belo Horizonte,Zona Norte,419,3,3,0,294314,1983
+30,Apartamento,Porto Alegre,Zona Oeste,69,5,2,1,4283162,2013
+31,Apartamento,Porto Alegre,Zona Oeste,231,1,1,3,1396242,1986
+32,Comercial,Belo Horizonte,Centro,406,5,1,2,732297,2009
+33,Casa,Curitiba,Zona Sul,68,3,2,3,289130,1990
+34,Apartamento,Curitiba,Zona Oeste,241,5,1,0,4525594,1998
+35,Comercial,Curitiba,Zona Oeste,474,1,1,0,950853,2020
+36,Casa,São Paulo,Zona Leste,228,3,2,2,4656143,2018
+37,Casa,São Paulo,Centro,213,2,1,3,2782401,1984
+38,Apartamento,São Paulo,Centro,425,1,2,2,1398097,2014
+39,Comercial,Porto Alegre,Zona Oeste,425,2,1,0,1260987,1991
+40,Apartamento,Curitiba,Zona Oeste,460,2,3,3,3765493,1997
+41,Casa,Rio de Janeiro,Zona Oeste,148,5,1,2,4365142,1987
+42,Apartamento,Rio de Janeiro,Zona Norte,168,5,1,2,4242601,1983
+43,Apartamento,Porto Alegre,Zona Leste,295,3,2,3,1127834,1993
+44,Comercial,Rio de Janeiro,Centro,80,3,3,3,4798651,1990
+45,Apartamento,Porto Alegre,Zona Oeste,161,1,2,1,727708,1988
+46,Comercial,Porto Alegre,Centro,363,3,3,2,1866117,2021
+47,Comercial,São Paulo,Zona Oeste,329,1,2,1,4990865,1986
+48,Casa,São Paulo,Zona Leste,299,2,3,3,2803805,2002
+49,Apartamento,São Paulo,Centro,273,3,3,1,3405190,1998
+50,Casa,Rio de Janeiro,Zona Norte,91,2,3,2,2665285,2022
+51,Comercial,Rio de Janeiro,Zona Oeste,445,2,2,0,1637137,1993
+52,Comercial,Belo Horizonte,Zona Leste,353,5,3,1,1053561,2003
+53,Apartamento,Rio de Janeiro,Zona Sul,342,2,2,3,1648833,2004
+54,Casa,Curitiba,Zona Leste,180,1,2,3,3402378,1988
+55,Comercial,Porto Alegre,Zona Oeste,359,4,3,3,1504758,2021
+56,Apartamento,Belo Horizonte,Zona Norte,216,5,3,1,1658773,2016
+57,Apartamento,Curitiba,Zona Sul,159,1,2,0,2495494,1984
+58,Casa,Porto Alegre,Zona Sul,170,1,2,2,4423279,2018
+59,Apartamento,Curitiba,Zona Sul,198,4,2,1,2838325,2000
+60,Casa,Curitiba,Zona Oeste,375,4,1,3,3541988,2002
+61,Comercial,Porto Alegre,Zona Oeste,463,2,1,3,2662476,1983
+62,Casa,Porto Alegre,Zona Leste,358,1,1,3,4768842,2017
+63,Casa,Porto Alegre,Zona Leste,120,3,3,1,3092160,1988
+64,Comercial,Curitiba,Zona Norte,231,5,1,0,2099583,2012
+65,Casa,Porto Alegre,Centro,430,1,1,2,1669569,1998
+66,Casa,Porto Alegre,Zona Sul,206,5,2,3,4537280,1992
+67,Comercial,Porto Alegre,Zona Norte,290,2,2,1,4598475,2021
+68,Casa,Porto Alegre,Zona Norte,349,4,1,0,2093952,1981
+69,Casa,Belo Horizonte,Zona Leste,112,4,1,2,3391629,1983
+70,Comercial,São Paulo,Zona Norte,394,3,1,3,1703268,2010
+71,Comercial,Curitiba,Zona Oeste,169,4,2,2,4596976,2007
+72,Apartamento,Porto Alegre,Zona Sul,400,1,3,1,3218374,1990
+73,Comercial,Rio de Janeiro,Zona Norte,382,3,2,0,2819123,2000
+74,Comercial,Porto Alegre,Zona Norte,250,2,1,1,3208639,2021
+75,Casa,Belo Horizonte,Zona Sul,268,4,1,0,1309815,1999
+76,Comercial,Curitiba,Zona Oeste,179,3,3,0,3368402,1980
+77,Apartamento,Rio de Janeiro,Centro,248,5,1,1,1082089,2013
+78,Apartamento,Porto Alegre,Zona Norte,454,3,1,0,4023240,2010
+79,Casa,Rio de Janeiro,Zona Oeste,150,2,3,2,4277704,1998
+80,Comercial,Curitiba,Zona Leste,115,1,2,1,2019730,2018
+81,Casa,Porto Alegre,Zona Leste,288,4,1,0,2179527,2011
+82,Apartamento,Porto Alegre,Zona Leste,272,1,1,1,424681,1998
+83,Comercial,Porto Alegre,Zona Sul,194,1,1,1,3017206,2006
+84,Casa,Belo Horizonte,Zona Leste,479,2,3,3,4082226,2014
+85,Apartamento,Curitiba,Zona Leste,176,5,3,3,1252368,2016
+86,Apartamento,Curitiba,Zona Norte,223,4,3,3,625278,2016
+87,Apartamento,Porto Alegre,Zona Oeste,125,4,2,0,533719,2013
+88,Casa,Curitiba,Zona Norte,147,3,2,0,3463397,1980
+89,Casa,Curitiba,Zona Oeste,58,3,3,3,2629170,1983
+90,Casa,Curitiba,Zona Oeste,145,1,3,0,1022863,1998
+91,Comercial,Curitiba,Zona Norte,263,2,2,1,4158996,2008
+92,Apartamento,São Paulo,Zona Leste,50,2,2,3,871657,1994
+93,Apartamento,Porto Alegre,Centro,170,4,1,1,4853495,1995
+94,Comercial,Porto Alegre,Zona Sul,286,2,3,1,4678978,2001
+95,Casa,São Paulo,Zona Norte,474,2,2,1,4645847,1990
+96,Casa,Rio de Janeiro,Centro,326,5,3,2,1827543,1994
+97,Casa,Porto Alegre,Centro,108,2,3,1,424270,2007
+98,Comercial,Porto Alegre,Zona Norte,354,4,1,0,1164354,1996
+99,Apartamento,São Paulo,Zona Norte,232,3,1,3,786469,2006
+100,Apartamento,Rio de Janeiro,Zona Leste,285,2,2,3,299179,1994
