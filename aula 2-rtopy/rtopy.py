@@ -196,10 +196,9 @@ print(rep_obj)
 
 
 
-#%% ⬅️ (Opcional) Trazer resultados do R → Python
-# Ex.: tabela descritiva, shapiro, levene, d de Cohen, texto do report e o próprio data frame
+#%% ⬅️ Exportar objetos do R → Python
 %%R -o desc_tbl -o shapiro_tbl -o lev_tbl -o d_tbl -o rep_txt -o ex1_aula2
-# Nada a executar aqui; a diretiva -o já exporta os objetos
+invisible(NULL)  # corpo R “vazio” só pra célula ser válida
 
 #%% 🐍 Ver no Python o que voltou
 type(desc_tbl), desc_tbl.head()
