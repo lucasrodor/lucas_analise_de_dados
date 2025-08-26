@@ -17,7 +17,7 @@ import pandas as pd
 pd.options.display.float_format = "{:.2f}".format
 
 # Ajuste o caminho do seu arquivo:
-csv_path = r"C:\Lucas\IBMEC\4 Semestre\Inferencia estatística\Aula 2\Data\normtemp.csv"
+csv_path = r"C:\Users\lucas\IBMEC\programacao_para_analise_de_dados_2025.2\aula 2-rtopy\normtemp.csv"
 
 # Separa por ';'
 df_py = pd.read_csv(csv_path, sep=';')
@@ -177,7 +177,6 @@ p <- ggplot(data = ex1_aula2, aes(x = Genero, y = Temperatura)) +
 print(p)
 ggsave("dotplot.png", plot = p, dpi = 600, width = 3.5, height = 3.5)
 
-%%R
 # Garantias mínimas
 ex1_aula2 <- ex1_aula2[!is.na(ex1_aula2$Genero) & !is.na(ex1_aula2$Temperatura), ]
 ex1_aula2$Genero <- droplevels(factor(ex1_aula2$Genero))
@@ -187,13 +186,14 @@ if (length(levels(ex1_aula2$Genero)) != 2) {
                paste(levels(ex1_aula2$Genero), collapse=", ")))
 }
 
-# t-test para amostras independentes (variâncias iguais, como no seu código)
+# t-test independente (variâncias iguais, como no seu código)
 resultado <- t.test(Temperatura ~ Genero, data = ex1_aula2,
                     alternative = "two.sided", var.equal = TRUE)
 
-# Report bonito
-rep_txt <- report::report(resultado)
-cat(rep_txt)
+# Report: imprime o objeto (sem usar cat)
+rep_obj <- report::report(resultado)
+print(rep_obj)
+
 
 
 #%% ⬅️ (Opcional) Trazer resultados do R → Python
