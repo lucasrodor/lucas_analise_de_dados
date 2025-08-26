@@ -1,7 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv(
-    "C:\\Users\\lucas\\IBMEC\\programacao_para_analise_de_dados_2025.2\\exercicios\\Lista Dataframes\\imoveis_brasil.csv")
+df = pd.read_csv("C:\\Users\\lucas\\IBMEC\\programacao_para_analise_de_dados_2025.2\\data\\imoveis_brasil.csv")
 
 # 1.	Mostrar as 5 primeiras e as 5 ultimas linhas do DataFrame. Use também df.sample(5) e verifique qual o resultado.
 
