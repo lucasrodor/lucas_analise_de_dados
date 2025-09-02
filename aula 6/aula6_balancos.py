@@ -1,13 +1,17 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 import requests
 
 token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4OTczNjU1LCJpYXQiOjE3NTYzODE2NTUsImp0aSI6IjBkYzQzNGM4ZDYwOTRiMWE4Yzk1NTMzOTU2ZDYxNWEyIiwidXNlcl9pZCI6IjQwIn0.g3hHkVgmxEfNSu7_9E0YpARb9F3tYTSm15x31wUkfJM"
 headers = {'Authorization': f'JWT {token}'}
 # --- pega todos os tickers e tenta mapear nome/empresa ---
-resp_tk = requests.get('https://laboratoriodefinancas.com/api/v1/ticker', headers=headers).json()
-lista = resp_tk['dados'] if isinstance(resp_tk, dict) and 'dados' in resp_tk else resp_tk
+resp_tk = requests.get(
+    'https://laboratoriodefinancas.com/api/v1/ticker', headers=headers).json()
+lista = resp_tk['dados'] if isinstance(
+    resp_tk, dict) and 'dados' in resp_tk else resp_tk
 tickers = [t['ticker'] for t in lista]
-nome_por_ticker = {t['ticker']: (t.get('empresa') or t.get('nome') or "") for t in lista}
+nome_por_ticker = {t['ticker']: (
+    t.get('empresa') or t.get('nome') or "") for t in lista}
 
 periodo = '20252T'
 resultados = {}     # {ticker: roe} só para consulta rápida
@@ -58,10 +62,12 @@ for ticker in tickers:
     # Mantém simples: se não achar, fica None e segue o jogo.
     filtro_receita = (
         (df["descricao"].str.contains("receita", case=False, na=False)) &
-        (df["descricao"].str.contains("l[ií]quida", case=False, regex=True, na=False))
+        (df["descricao"].str.contains(
+            "l[ií]quida", case=False, regex=True, na=False))
     )
     receita_series = df.loc[filtro_receita, "valor"]
-    receita_liquida = float(receita_series.iloc[0]) if not receita_series.empty else None
+    receita_liquida = float(
+        receita_series.iloc[0]) if not receita_series.empty else None
 
     # ---- ROE ----
     roe = lucro_liquido / pl
@@ -84,15 +90,66 @@ for ticker in tickers:
 # --- DataFrame final, ordenado por ROE desc ---
 df_result = pd.DataFrame(linhas_df)
 if not df_result.empty:
-    df_result = df_result.sort_values("roe", ascending=False).reset_index(drop=True)
+    df_result = df_result.sort_values(
+        "roe", ascending=False).reset_index(drop=True)
 
     print('\n' + '='*50)
     print("Top 10 por ROE")
     print('='*50)
-    print(df_result.loc[:, ["ticker","nome","roe","lucro_liquido","pl","receita_liquida"]].head(10))
+    print(df_result.loc[:, ["ticker", "nome", "roe",
+          "lucro_liquido", "pl", "receita_liquida"]].head(10))
 
     # Maior ROE
     maior_ticker = df_result.iloc[0]["ticker"]
-    print(f"\nO maior ROE foi {df_result.iloc[0]['roe']*100:.2f}% na ação {maior_ticker}")
+    print(
+        f"\nO maior ROE foi {df_result.iloc[0]['roe']*100:.2f}% na ação {maior_ticker}")
 else:
     print("\nNenhum ROE calculado com os filtros atuais.")
+
+# =================== PLOTAR GRÁFICOS ===================
+
+
+# Gráfico de barras - Ranking de ROE
+if not df_result.empty:
+    # Seleciona os 10 maiores ROEs
+    top10 = df_result.nlargest(10, "roe")
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(top10["ticker"], top10["roe"] *
+            100)  # multiplica por 100 para virar %
+    plt.title(f"Top 10 Ações por ROE (%) - Período {periodo}")
+    plt.xlabel("Ticker")
+    plt.ylabel("ROE (%)")
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+else:
+    print("⚠️ Nenhum dado disponível para gerar o gráfico.")
+
+# Gráfico Scatter, relação de lucro líquido com ROE
+
+plt.figure(figsize=(8, 6))
+plt.scatter(df_result["lucro_liquido"], df_result["roe"] * 100)
+plt.xlabel("Lucro Líquido (R$)")
+plt.ylabel("ROE (%)")
+plt.title(f"ROE vs Lucro Líquido - {periodo}")
+plt.tight_layout()
+plt.show()
+
+# ROE X Lucro Líquido: Visualização comparativa
+top10 = df_result.nlargest(10, "roe")
+
+fig, ax1 = plt.subplots(figsize=(10, 6))
+
+ax2 = ax1.twinx()
+ax1.bar(top10["ticker"], top10["roe"] * 100,
+        color="tab:blue", alpha=0.7, label="ROE (%)")
+ax2.plot(top10["ticker"], top10["lucro_liquido"],
+         color="tab:red", marker="o", label="Lucro Líquido")
+
+ax1.set_xlabel("Ticker")
+ax1.set_ylabel("ROE (%)", color="tab:blue")
+ax2.set_ylabel("Lucro Líquido (R$)", color="tab:red")
+plt.title(f"Top 10 ROE e Lucro Líquido - {periodo}")
+plt.tight_layout()
+plt.show()
