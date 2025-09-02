@@ -3,57 +3,96 @@ import requests
 
 token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4OTczNjU1LCJpYXQiOjE3NTYzODE2NTUsImp0aSI6IjBkYzQzNGM4ZDYwOTRiMWE4Yzk1NTMzOTU2ZDYxNWEyIiwidXNlcl9pZCI6IjQwIn0.g3hHkVgmxEfNSu7_9E0YpARb9F3tYTSm15x31wUkfJM"
 headers = {'Authorization': f'JWT {token}'}
+# --- pega todos os tickers e tenta mapear nome/empresa ---
+resp_tk = requests.get('https://laboratoriodefinancas.com/api/v1/ticker', headers=headers).json()
+lista = resp_tk['dados'] if isinstance(resp_tk, dict) and 'dados' in resp_tk else resp_tk
+tickers = [t['ticker'] for t in lista]
+nome_por_ticker = {t['ticker']: (t.get('empresa') or t.get('nome') or "") for t in lista}
 
-# pega todos os tickers
-r_ticker = requests.get('https://laboratoriodefinancas.com/api/v1/ticker', headers=headers).json()
-tickers = [t['ticker'] for t in r_ticker['dados']]
+periodo = '20252T'
+resultados = {}     # {ticker: roe} só para consulta rápida
+linhas_df = []      # para montar o DataFrame no final
 
-roes = {}
+print('='*50)
+print(f'Análise do ROE de ações no período {periodo}')
+print('='*50)
 
 for ticker in tickers:
-    params = {'ticker': ticker, 'ano_tri': '20252T'}
+    params = {'ticker': ticker, 'ano_tri': periodo}
     r = requests.get('https://laboratoriodefinancas.com/api/v1/balanco',
-                     params=params, headers=headers).json()
+                     params=params, headers=headers)
 
-    # se não vier a chave esperada, pula
-    if 'dados' not in r or not r['dados']:
+    if r.status_code != 200:
         continue
 
-    df = pd.DataFrame(r['dados'][0]['balanco'])
+    data = r.json()
+    if 'dados' not in data or not data['dados'] or 'balanco' not in data['dados'][0]:
+        continue
 
-    # Lucro Líquido (use "valor" em vez de ['valor'])
+    df = pd.DataFrame(data['dados'][0]['balanco'])
+
+    # ---- Lucro Líquido (linha conta 3.11, descrição começa com "lucro", data-alvo) ----
     filtro_ll = (
         (df["conta"] == "3.11") &
         (df["descricao"].str.contains("^lucro", case=False, na=False)) &
         (df["data_ini"] == "2025-01-01")
     )
-    ll = df.loc[filtro_ll, "valor"]
-    if ll.empty:
+    ll_series = df.loc[filtro_ll, "valor"]
+    if ll_series.empty:
         continue
-    lucro_liquido = ll.iloc[0]
+    lucro_liquido = float(ll_series.iloc[0])
 
-    # Patrimônio Líquido
+    # ---- Patrimônio Líquido (grupo 2.0..., descrição começa com "patrim") ----
     filtro_pl = (
-        (df["conta"].str.contains("2.0", case=False, na=False)) &
+        (df["conta"].astype(str).str.contains("^2\\.0", regex=True, na=False)) &
         (df["descricao"].str.contains("^patrim", case=False, na=False))
     )
-    pl_s = df.loc[filtro_pl, "valor"]
-    if pl_s.empty:
+    pl_series = df.loc[filtro_pl, "valor"]
+    if pl_series.empty:
         continue
-    pl = pl_s.iloc[0]
+    pl = float(pl_series.iloc[0])
     if pl == 0:
         continue
 
-    # ROE
-    roes[ticker] = lucro_liquido / pl
+    # ---- (Opcional) Receita Líquida, se existir (muitas vezes é 3.01 ou descrição com "receita líquida") ----
+    # Mantém simples: se não achar, fica None e segue o jogo.
+    filtro_receita = (
+        (df["descricao"].str.contains("receita", case=False, na=False)) &
+        (df["descricao"].str.contains("l[ií]quida", case=False, regex=True, na=False))
+    )
+    receita_series = df.loc[filtro_receita, "valor"]
+    receita_liquida = float(receita_series.iloc[0]) if not receita_series.empty else None
 
-# imprime todos
-for t, v in roes.items():
-    print(f"{t}: ROE = {v*100:.2f}%")
+    # ---- ROE ----
+    roe = lucro_liquido / pl
+    resultados[ticker] = roe
 
-# maior ROE
-if roes:
-    maior_ticker = max(roes, key=roes.get)
-    print(f"\nO maior ROE foi {roes[maior_ticker]*100:.2f}% na ação {maior_ticker}")
+    # imprime imediatamente
+    print(f"{ticker}: ROE = {roe*100:.2f}% | LL = R${lucro_liquido:,.2f} | PL = R${pl:,.2f}")
+
+    # guarda linha para o DataFrame final
+    linhas_df.append({
+        "ticker": ticker,
+        "nome": nome_por_ticker.get(ticker, ""),
+        "periodo": periodo,
+        "lucro_liquido": lucro_liquido,
+        "pl": pl,
+        "roe": roe,
+        "receita_liquida": receita_liquida
+    })
+
+# --- DataFrame final, ordenado por ROE desc ---
+df_result = pd.DataFrame(linhas_df)
+if not df_result.empty:
+    df_result = df_result.sort_values("roe", ascending=False).reset_index(drop=True)
+
+    print('\n' + '='*50)
+    print("Top 10 por ROE")
+    print('='*50)
+    print(df_result.loc[:, ["ticker","nome","roe","lucro_liquido","pl","receita_liquida"]].head(10))
+
+    # Maior ROE
+    maior_ticker = df_result.iloc[0]["ticker"]
+    print(f"\nO maior ROE foi {df_result.iloc[0]['roe']*100:.2f}% na ação {maior_ticker}")
 else:
-    print("Nenhum ROE calculado com os filtros atuais.")
+    print("\nNenhum ROE calculado com os filtros atuais.")
