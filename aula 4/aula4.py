@@ -12,8 +12,8 @@ df1.loc[filtro]
 
 # ===============================================
 
-url = "http://www.ipeadata.gov.br/api/odata4/Metadados"
-response = requests.get(url)
+url2 = "http://www.ipeadata.gov.br/api/odata4/Metadados"
+response = requests.get(url2)
 metadados = response.json()
 metadados = metadados["value"]
 df = pd.DataFrame(metadados)
