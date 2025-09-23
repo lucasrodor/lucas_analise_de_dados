@@ -120,7 +120,7 @@ plt.show()
 url_bc = (
     f"https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/"
     "CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?"
-    "@dataInicial='01-01-2023'&@dataFinalCotacao='12-31-2023'&$format=json"
+    "@dataInicial='01-01-2010'&@dataFinalCotacao='09-18-2023'&$format=json"
 )
 r6 = requests.get(url_bc).json()['value']
 dados = pd.DataFrame(r6)
